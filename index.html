@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday 🌹</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Great+Vibes&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --gold: #c9a84c; --deep: #0d0610; --cream: #fff9f0; }
+html, body { width:100%; height:100%; background:var(--deep); color:var(--cream); font-family:'Cormorant Garamond',serif; overflow:hidden; }
+
+@keyframes shimmer    { 0%{background-position:0%} 100%{background-position:200%} }
+@keyframes fadeUp     { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+@keyframes blink      { 0%,100%{opacity:0.25} 50%{opacity:0.85} }
+@keyframes sealGlow   { 0%,100%{box-shadow:0 4px 16px rgba(160,0,0,0.5),inset 0 1px 4px rgba(255,255,255,0.12)} 50%{box-shadow:0 4px 28px rgba(220,40,40,0.8),0 0 35px rgba(180,0,0,0.28),inset 0 1px 4px rgba(255,255,255,0.12)} }
+@keyframes float      { 0%,100%{transform:translateY(0) rotate(-5deg)} 50%{transform:translateY(-12px) rotate(5deg)} }
+@keyframes spinFloat  { 0%,100%{transform:rotate(-8deg) scale(1)} 50%{transform:rotate(8deg) scale(1.1)} }
+@keyframes flyBalloon { 0%{transform:translateY(0) rotate(0deg);opacity:1} 100%{transform:translateY(-115vh) rotate(15deg);opacity:0} }
+@keyframes particleDrift { 0%{transform:translateY(100vh);opacity:0} 10%{opacity:0.5} 90%{opacity:0.2} 100%{transform:translateY(-20vh);opacity:0} }
+@keyframes petalFall  { 0%{transform:translateY(-5vh) rotate(0deg);opacity:0} 10%{opacity:0.6} 50%{transform:translateY(50vh) rotate(180deg) translateX(25px)} 90%{opacity:0.3} 100%{transform:translateY(105vh) rotate(360deg) translateX(-15px);opacity:0} }
+@keyframes tickFlip   { 0%{transform:rotateX(0)} 45%{transform:rotateX(90deg)} 55%{transform:rotateX(-90deg)} 100%{transform:rotateX(0)} }
+@keyframes lockPop    { 0%{transform:scale(1)} 40%{transform:scale(1.35)} 100%{transform:scale(1)} }
+@keyframes slideUp    { 0%{transform:translateY(0);opacity:1} 100%{transform:translateY(-100vh);opacity:0} }
+
+/* ── PARTICLES / PETALS / BALLOONS ── */
+#particles { position:fixed; inset:0; pointer-events:none; z-index:1; overflow:hidden; }
+.particle  { position:absolute; border-radius:50%; pointer-events:none; animation:particleDrift linear infinite; opacity:0; }
+.petal     { position:fixed; pointer-events:none; z-index:2; animation:petalFall linear infinite; opacity:0; }
+.fly-b     { position:fixed; pointer-events:none; z-index:50; animation:flyBalloon linear forwards; }
+
+/* ══════════════ LOCK SCREEN ══════════════ */
+#lock-screen {
+  position:fixed; inset:0; z-index:200;
+  background:radial-gradient(ellipse at 50% 40%, #14062e 0%, #0d0610 70%);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:30px 20px;
+  transition:opacity 0.8s ease;
+}
+#lock-screen.sliding { animation:slideUp 1s cubic-bezier(0.7,0,0.9,1) forwards; }
+
+.lk-pre  { font-family:'Montserrat',sans-serif; font-weight:300; font-size:0.58rem; letter-spacing:9px; text-transform:uppercase; color:var(--gold); opacity:0.5; margin-bottom:12px; animation:fadeUp 1s ease both; }
+.lk-name { font-family:'Great Vibes',cursive; font-size:clamp(2.8rem,9vw,5rem); background:linear-gradient(135deg,#c9a84c,#fff0a0,#c9a84c); background-size:200%; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:shimmer 4s linear infinite, fadeUp 1s 0.15s ease both; filter:drop-shadow(0 0 22px rgba(201,168,76,0.25)); line-height:1.1; }
+.lk-sub  { font-style:italic; color:rgba(255,255,255,0.3); font-size:clamp(0.85rem,2vw,1rem); letter-spacing:1px; margin-bottom:36px; animation:fadeUp 1s 0.3s ease both; }
+
+/* lock emoji */
+.lk-icon { font-size:3.2rem; display:block; margin-bottom:30px; transition:transform 0.3s; animation:fadeUp 1s 0.4s ease both; filter:drop-shadow(0 0 16px rgba(201,168,76,0.2)); }
+.lk-icon.pop { animation:lockPop 0.5s ease; }
+
+.gold-line { width:100px; height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent); margin:14px auto; }
+
+/* countdown */
+.lk-opens { font-family:'Montserrat',sans-serif; font-weight:300; font-size:0.55rem; letter-spacing:6px; text-transform:uppercase; color:rgba(255,255,255,0.22); margin-bottom:16px; animation:fadeUp 1s 0.55s ease both; }
+.lk-cd    { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; animation:fadeUp 1s 0.65s ease both; }
+.lk-cd-block { display:flex; flex-direction:column; align-items:center; gap:6px; }
+.lk-cd-num  { font-family:'Cormorant Garamond',serif; font-weight:300; font-size:clamp(2.2rem,6vw,3.8rem); color:var(--cream); line-height:1; background:rgba(255,255,255,0.025); border:1px solid rgba(201,168,76,0.18); border-radius:3px; padding:11px 15px; min-width:72px; text-align:center; position:relative; }
+.lk-cd-num::after { content:''; position:absolute; left:0; right:0; top:50%; height:1px; background:rgba(201,168,76,0.1); }
+.lk-cd-num.flip { animation:tickFlip 0.3s ease; }
+.lk-cd-lbl { font-family:'Montserrat',sans-serif; font-weight:300; font-size:0.44rem; letter-spacing:5px; text-transform:uppercase; color:rgba(201,168,76,0.48); }
+
+/* birthday state */
+.lk-bday { display:none; flex-direction:column; align-items:center; gap:14px; animation:fadeUp 0.8s ease both; }
+.lk-bday-big { font-family:'Great Vibes',cursive; font-size:clamp(2rem,6vw,3.5rem); color:var(--gold); filter:drop-shadow(0 0 18px rgba(201,168,76,0.4)); }
+.lk-bday-sub { font-style:italic; color:rgba(255,255,255,0.45); font-size:0.98rem; }
+.unlock-btn { margin-top:10px; padding:14px 52px; border:1px solid rgba(201,168,76,0.38); border-radius:0; background:rgba(201,168,76,0.07); color:var(--gold); font-family:'Montserrat',sans-serif; font-weight:300; font-size:0.62rem; letter-spacing:7px; text-transform:uppercase; cursor:pointer; transition:all 0.3s; }
+.unlock-btn:hover { background:rgba(201,168,76,0.17); border-color:var(--gold); box-shadow:0 0 30px rgba(201,168,76,0.2); transform:translateY(-2px); }
+
+/* ══════════════ MAIN SITE ══════════════ */
+#main-site { display:none; }
+#main-site.visible { display:block; }
+
+.page { position:fixed; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:30px 20px; z-index:10; overflow:hidden; opacity:1; transition:opacity 0.45s ease; }
+.page.active { display:flex; }
+.page.fade-out { opacity:0; }
+.page-bg { position:absolute; inset:0; z-index:0; pointer-events:none; }
+.p1-bg { background:radial-gradient(ellipse at center,#1e0830 0%,#0d0610 70%); }
+.p2-bg { background:radial-gradient(ellipse at 50% 30%,#200d40 0%,#0d0610 65%); }
+.p3-bg { background:radial-gradient(ellipse at center,#1a0630 0%,#0d0610 70%); }
+.p4-bg { background:radial-gradient(ellipse at center,#200d40 0%,#0d0610 70%); }
+.page > *:not(.page-bg) { position:relative; z-index:5; }
+
+.page-dots { position:fixed; bottom:26px; left:50%; transform:translateX(-50%); display:flex; gap:8px; z-index:100; }
+.dot { width:5px; height:5px; border-radius:50%; background:rgba(201,168,76,0.2); transition:all 0.4s; }
+.dot.active { background:var(--gold); box-shadow:0 0 8px rgba(201,168,76,0.6); transform:scale(1.4); }
+
+.next-btn { margin-top:28px; padding:13px 44px; border:1px solid rgba(201,168,76,0.35); border-radius:0; background:rgba(201,168,76,0.07); color:var(--gold); font-family:'Montserrat',sans-serif; font-weight:300; font-size:0.62rem; letter-spacing:6px; text-transform:uppercase; cursor:pointer; transition:all 0.3s; }
+.next-btn:hover { background:rgba(201,168,76,0.16); border-color:var(--gold); box-shadow:0 0 28px rgba(201,168,76,0.18); transform:translateY(-2px); }
+
+/* PAGE 1 — ENVELOPE */
+.pre-title { font-family:'Montserrat',sans-serif; font-weight:300; font-size:0.62rem; letter-spacing:8px; text-transform:uppercase; color:var(--gold); opacity:0.7; margin-bottom:10px; animation:fadeUp 1s ease both; }
+.main-title { font-family:'Great Vibes',cursive; font-size:clamp(3rem,10vw,5.5rem); background:linear-gradient(135deg,#c9a84c,#fff0a0,#c9a84c); background-size:200%; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:shimmer 4s linear infinite, fadeUp 1s 0.2s ease both; filter:drop-shadow(0 0 28px rgba(201,168,76,0.3)); }
+.env-scene { margin-top:36px; display:flex; flex-direction:column; align-items:center; }
+.env-wrap { position:relative; width:280px; height:190px; cursor:pointer; filter:drop-shadow(0 14px 45px rgba(201,168,76,0.22)); transition:transform 0.3s; }
+.env-wrap:hover:not(.opened) { transform:translateY(-6px) scale(1.03); }
+.env-back { position:absolute; inset:0; background:linear-gradient(160deg,#caa86e 0%,#b8904a 40%,#a07830 100%); border-radius:3px 3px 6px 6px; z-index:1; box-shadow:inset 0 -3px 10px rgba(0,0,0,0.22),inset 0 3px 8px rgba(255,255,255,0.08); }
+.env-back::before { content:''; position:absolute; inset:0; border-radius:inherit; background:linear-gradient(135deg,transparent 49.3%,rgba(0,0,0,0.1) 49.3%,rgba(0,0,0,0.1) 50.7%,transparent 50.7%),linear-gradient(225deg,transparent 49.3%,rgba(0,0,0,0.1) 49.3%,rgba(0,0,0,0.1) 50.7%,transparent 50.7%); }
+.env-bottom { position:absolute; bottom:0; left:0; right:0; height:0; border-left:140px solid transparent; border-right:140px solid transparent; border-bottom:95px solid #9a7225; z-index:2; }
+.env-letter { position:absolute; left:18px; right:18px; bottom:8px; height:158px; background:linear-gradient(180deg,#fffbf3,#fff5e0); border-radius:3px 3px 5px 5px; z-index:3; transition:transform 0.95s cubic-bezier(0.2,0.85,0.3,1) 0.4s; box-shadow:0 -3px 16px rgba(0,0,0,0.12); display:flex; align-items:center; justify-content:center; flex-direction:column; gap:6px; }
+.env-letter-icon { font-size:1.7rem; }
+.env-letter-txt { font-family:'Great Vibes',cursive; color:#9a6820; font-size:1rem; }
+.env-wrap.opened .env-letter { transform:translateY(-152px); }
+.env-flap { position:absolute; top:0; left:0; right:0; height:0; border-left:140px solid transparent; border-right:140px solid transparent; border-top:105px solid #b08840; z-index:5; transform-origin:top center; transition:transform 0.75s cubic-bezier(0.4,0,0.2,1); }
+.env-wrap.opened .env-flap { transform:rotateX(180deg); }
+.wax { position:absolute; top:42%; left:50%; transform:translate(-50%,-50%); width:56px; height:56px; border-radius:50%; background:radial-gradient(circle at 35% 30%,#cc3333,#6e0808); box-shadow:0 4px 16px rgba(160,0,0,0.5),inset 0 1px 4px rgba(255,255,255,0.12); display:flex; align-items:center; justify-content:center; z-index:6; transition:all 0.35s; animation:sealGlow 2.5s ease-in-out infinite; }
+.wax::before { content:''; position:absolute; inset:5px; border-radius:50%; border:1px solid rgba(255,190,150,0.18); }
+.wax-glyph { color:rgba(255,210,170,0.85); font-size:1.3rem; position:relative; z-index:1; }
+.env-wrap.opened .wax { opacity:0; transform:translate(-50%,-50%) scale(0); }
+.click-hint { margin-top:18px; font-family:'Montserrat',sans-serif; font-weight:300; font-size:0.58rem; letter-spacing:5px; text-transform:uppercase; color:rgba(201,168,76,0.4); animation:blink 2s ease-in-out infinite; }
+
+/* PAGE 2 — BANNER */
+.hb-label { font-family:'Montserrat',sans-serif; font-weight:300; font-size:0.58rem; letter-spacing:9px; text-transform:uppercase; color:var(--gold); opacity:0.65; margin-bottom:8px; }
+.rose-row { font-size:1.7rem; margin-bottom:6px; opacity:0.75; }
+.hb-name { font-family:'Great Vibes',cursive; font-size:clamp(4.5rem,16vw,9rem); background:linear-gradient(135deg,#c9a84c 0%,#fff0a0 40%,#e8c96a 70%,#c9a84c 100%); background-size:300%; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:shimmer 4s linear infinite; filter:drop-shadow(0 4px 28px rgba(201,168,76,0.4)); line-height:1; }
+.hb-sub { font-style:italic; color:rgba(255,255,255,0.45); font-size:clamp(0.9rem,2.2vw,1.25rem); margin-top:8px; letter-spacing:1px; }
+.age-row { display:flex; align-items:center; gap:14px; margin:18px auto 0; }
+.age-num { font-family:'Great Vibes',cursive; font-size:4.5rem; color:var(--gold); filter:drop-shadow(0 0 16px rgba(201,168,76,0.45)); line-height:1; }
+.age-label { font-family:'Montserrat',sans-serif; font-weight:300; letter-spacing:3px; font-size:0.52rem; text-transform:uppercase; color:rgba(255,255,255,0.38); line-height:2; text-align:left; }
+
+/* PAGE 3 — MESSAGE */
+.msg-rose { font-size:2.6rem; margin-bottom:12px; animation:float 4s ease-in-out infinite; }
+.msg-card { max-width:580px; width:100%; background:rgba(255,255,255,0.022); border:1px solid rgba(201,168,76,0.14); border-radius:2px; padding:38px 46px; position:relative; backdrop-filter:blur(10px); margin-top:12px; }
+.msg-card::before { content:'✦'; position:absolute; top:12px; left:15px; color:var(--gold); opacity:0.35; font-size:0.75rem; }
+.msg-card::after  { content:'✦'; position:absolute; bottom:12px; right:15px; color:var(--gold); opacity:0.35; font-size:0.75rem; }
+.msg-text { font-family:'Cormorant Garamond',serif; font-size:clamp(1rem,2.1vw,1.3rem); font-style:italic; line-height:2.1; color:rgba(255,255,255,0.78); font-weight:300; }
+.msg-sign { margin-top:22px; font-family:'Great Vibes',cursive; font-size:1.85rem; color:var(--gold); opacity:0.88; }
+
+/* PAGE 4 — FINAL */
+.final-rose  { font-size:3.5rem; animation:spinFloat 6s ease-in-out infinite; }
+.final-title { font-family:'Great Vibes',cursive; font-size:clamp(3.5rem,12vw,7rem); background:linear-gradient(135deg,#c9a84c 0%,#fff0a0 50%,#c9a84c 100%); background-size:200%; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:shimmer 4s linear infinite; filter:drop-shadow(0 0 38px rgba(201,168,76,0.4)); margin:8px 0; }
+.final-poem  { font-style:italic; color:rgba(255,255,255,0.42); font-size:clamp(0.9rem,2vw,1.05rem); line-height:2; max-width:360px; }
+.final-deco  { font-size:1.7rem; opacity:0.5; margin-top:14px; }
+
+@media(max-width:540px){ .msg-card{padding:26px 20px} .lk-cd-num{min-width:58px;padding:10px 12px} }
+</style>
+</head>
+<body>
+
+<div id="particles"></div>
+
+<!-- ══ LOCK SCREEN ══ -->
+<div id="lock-screen">
+  <p class="lk-pre">This page is sealed until</p>
+  <h1 class="lk-name" id="lk-name">Ayesha's Birthday</h1>
+  <p class="lk-sub">Something very special is waiting…</p>
+
+  <span class="lk-icon" id="lk-icon">🔒</span>
+
+  <div class="gold-line"></div>
+  <p class="lk-opens" id="lk-opens">Opens in</p>
+
+  <div class="lk-cd" id="lk-cd">
+    <div class="lk-cd-block"><div class="lk-cd-num" id="cd-d">--</div><div class="lk-cd-lbl">Days</div></div>
+    <div class="lk-cd-block"><div class="lk-cd-num" id="cd-h">--</div><div class="lk-cd-lbl">Hours</div></div>
+    <div class="lk-cd-block"><div class="lk-cd-num" id="cd-m">--</div><div class="lk-cd-lbl">Minutes</div></div>
+    <div class="lk-cd-block"><div class="lk-cd-num" id="cd-s">--</div><div class="lk-cd-lbl">Seconds</div></div>
+  </div>
+
+  <div class="lk-bday" id="lk-bday">
+    <span class="lk-bday-big">Today is the Day! 🎉</span>
+    <span class="lk-bday-sub">Her surprise is ready and waiting…</span>
+    <button class="unlock-btn" onclick="unlockSite()">Open Your Gift 🌹</button>
+  </div>
+</div>
+
+<!-- ══ MAIN SITE ══ -->
+<div id="main-site">
+  <div class="page-dots" id="dots"></div>
+
+  <div class="page active" id="p1">
+    <div class="page-bg p1-bg"></div>
+    <p class="pre-title">A message sealed with love</p>
+    <h1 class="main-title">For You 🌹</h1>
+    <div class="env-scene">
+      <div class="env-wrap" id="envelope" onclick="openEnvelope()">
+        <div class="env-back"></div>
+        <div class="env-bottom"></div>
+        <div class="env-letter"><span class="env-letter-icon">💌</span><span class="env-letter-txt">A Birthday Letter</span></div>
+        <div class="env-flap"></div>
+        <div class="wax"><span class="wax-glyph">✦</span></div>
+      </div>
+      <p class="click-hint">click the seal to open</p>
+    </div>
+  </div>
+
+  <div class="page" id="p2">
+    <div class="page-bg p2-bg"></div>
+    <p class="hb-label">Today is a very special day</p>
+    <div class="rose-row">🌹 ✦ 🌹</div>
+    <div class="gold-line"></div>
+    <h1 class="hb-name" id="hb-name">Ayesha</h1>
+    <div class="gold-line"></div>
+    <p class="hb-sub">May this day be as beautiful as you are</p>
+    <div class="age-row">
+      <span class="age-num" id="age-disp">16</span>
+      <span class="age-label">Years of<br>pure magic</span>
+    </div>
+    <button class="next-btn" onclick="goTo(3)">Continue →</button>
+  </div>
+
+  <div class="page" id="p3">
+    <div class="page-bg p3-bg"></div>
+    <div class="msg-rose">🌹</div>
+    <div class="gold-line"></div>
+    <div class="msg-card">
+      <p class="msg-text" id="msg-text">placeholder</p>
+      <div class="gold-line" style="margin-top:20px;"></div>
+      <p class="msg-sign" id="msg-sign">Forever Yours 🌹</p>
+    </div>
+    <button class="next-btn" onclick="goTo(4)">Continue →</button>
+  </div>
+
+  <div class="page" id="p4">
+    <div class="page-bg p4-bg"></div>
+    <div class="final-rose">🌹</div>
+    <div class="gold-line"></div>
+    <h2 class="final-title">Happy Birthday</h2>
+    <div class="gold-line"></div>
+    <p class="final-poem">May your day be wrapped in gold,<br>your heart be full and warm,<br>and every wish you've ever made<br>come beautifully true. 🌹</p>
+    <div class="final-deco">✦ 🌹 ✦</div>
+  </div>
+</div>
+
+<script>
+// ════════════ ✏️ EDIT HERE ════════════
+const C = {
+  name:      "Ayesha",
+  age:        16,
+  birthday:  "2026-02-27",   // YYYY-MM-DD — lock opens on this date
+  message:   `Every moment with you feels like a poem I never want to end. You carry light in your laughter and warmth in your soul — and on this day, the world celebrates that it has you in it.<br><br>Happy Birthday, my love. May every dream you carry quietly in your heart bloom beautifully this year.`,
+  signature: "Forever Yours 🌹"
+};
+// ══════════════════════════════════════
+
+// Apply config
+document.getElementById('lk-name').textContent   = C.name + "'s Birthday";
+document.getElementById('hb-name').textContent   = C.name;
+document.getElementById('age-disp').textContent  = C.age;
+document.getElementById('msg-text').innerHTML    = C.message;
+document.getElementById('msg-sign').textContent  = C.signature;
+
+// ── PARTICLES ──
+const pc = document.getElementById('particles');
+['#c9a84c','#e8d08a','#b5445a','#fff0a0','rgba(255,255,255,0.35)'].forEach(col => {
+  for (let j = 0; j < 7; j++) {
+    const p = document.createElement('div'); p.className = 'particle';
+    const s = 2 + Math.random() * 3;
+    p.style.cssText = `width:${s}px;height:${s}px;background:${col};left:${Math.random()*100}%;animation-duration:${9+Math.random()*10}s;animation-delay:${Math.random()*9}s;`;
+    pc.appendChild(p);
+  }
+});
+['🌸','🌹','✦','❤️'].forEach(e => {
+  const p = document.createElement('div'); p.className = 'petal'; p.textContent = e;
+  p.style.cssText = `left:${Math.random()*100}%;font-size:${0.6+Math.random()*0.65}rem;animation-duration:${12+Math.random()*9}s;animation-delay:${Math.random()*10}s;`;
+  document.body.appendChild(p);
+});
+
+// ── BALLOONS ──
+const bE = ['🎈','🎀','🌹','💛','💖','🎊','✨'];
+function launchBalloons(n) {
+  for (let i = 0; i < n; i++) {
+    setTimeout(() => {
+      const b = document.createElement('div'); b.className = 'fly-b';
+      b.textContent = bE[Math.floor(Math.random() * bE.length)];
+      const dur = 2.8 + Math.random() * 2.5;
+      b.style.cssText = `left:${Math.random()*100}vw;bottom:-60px;font-size:${1.3+Math.random()*1.2}rem;animation-duration:${dur}s;animation-delay:${Math.random()*0.3}s;`;
+      document.body.appendChild(b);
+      setTimeout(() => b.remove(), (dur + 0.6) * 1000);
+    }, i * 110);
+  }
+}
+
+// ── COUNTDOWN / LOCK LOGIC ──
+const prev = {};
+function tick() {
+  const now    = new Date();
+  // Treat birthday as start-of-day in local time
+  const parts  = C.birthday.split('-');
+  const bdStart = new Date(+parts[0], +parts[1] - 1, +parts[2], 0, 0, 0, 0);
+  const bdEnd   = new Date(+parts[0], +parts[1] - 1, +parts[2], 23, 59, 59, 999);
+
+  // It's her birthday if we're between 00:00 and 23:59 on that exact date
+  if (now >= bdStart && now <= bdEnd) {
+    document.getElementById('lk-cd').style.display    = 'none';
+    document.getElementById('lk-opens').style.display = 'none';
+    document.getElementById('lk-icon').textContent    = '🎁';
+    document.getElementById('lk-bday').style.display  = 'flex';
+    return;
+  }
+
+  // Count down to the exact start of her birthday
+  const diff = bdStart - now;
+
+  // If birthday already passed this year, count to next year
+  const target = diff > 0 ? bdStart : new Date(+parts[0] + 1, +parts[1] - 1, +parts[2], 0, 0, 0, 0);
+  const remaining = target - now;
+  const pad  = n => String(n).padStart(2,'0');
+  const vals = {
+    d: pad(Math.floor(remaining / 86400000)),
+    h: pad(Math.floor((remaining % 86400000) / 3600000)),
+    m: pad(Math.floor((remaining % 3600000) / 60000)),
+    s: pad(Math.floor((remaining % 60000) / 1000))
+  };
+  ['d','h','m','s'].forEach(k => {
+    const el = document.getElementById('cd-' + k);
+    if (vals[k] !== prev[k]) {
+      el.classList.remove('flip'); void el.offsetWidth; el.classList.add('flip');
+      el.textContent = vals[k]; prev[k] = vals[k];
+    }
+  });
+}
+tick(); setInterval(tick, 1000);
+
+// ── UNLOCK ──
+function unlockSite() {
+  const lk = document.getElementById('lock-screen');
+  document.getElementById('lk-icon').textContent = '🔓';
+  launchBalloons(28);
+  setTimeout(() => {
+    lk.classList.add('sliding');
+    setTimeout(() => {
+      lk.style.display = 'none';
+      document.getElementById('main-site').classList.add('visible');
+      initMain();
+    }, 900);
+  }, 500);
+}
+
+// ── MAIN SITE ──
+function initMain() {
+  const TOTAL = 4; let cur = 1;
+  const dotsEl = document.getElementById('dots');
+  for (let i = 1; i <= TOTAL; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 1 ? ' active' : ''); d.id = 'dot' + i;
+    dotsEl.appendChild(d);
+  }
+  window.goTo = function(n) {
+    if (n < 1 || n > TOTAL) return;
+    const from = document.getElementById('p' + cur), to = document.getElementById('p' + n);
+    from.classList.add('fade-out');
+    setTimeout(() => {
+      from.classList.remove('active','fade-out'); to.classList.add('active');
+      document.getElementById('dot' + cur).classList.remove('active');
+      cur = n; document.getElementById('dot' + n).classList.add('active');
+      if (n === 2 || n === 4) launchBalloons(20);
+      if (n === 4) launchBalloons(15);
+    }, 440);
+  };
+  let envDone = false;
+  window.openEnvelope = function() {
+    if (envDone) return; envDone = true;
+    document.getElementById('envelope').classList.add('opened');
+    launchBalloons(22);
+    setTimeout(() => goTo(2), 1400);
+  };
+  setInterval(() => launchBalloons(2), 4000);
+}
+</script>
+</body>
+</html>
